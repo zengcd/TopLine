@@ -7,10 +7,14 @@
 
            <!-- 可以找到当前目标进行匹配校验，值 就是当前项目的名称 -->
           <el-form-item prop="mobile">
-            <el-input v-model="loginForm.mobile" placeholder="请输入手机号码"></el-input>
+            <el-input v-model="loginForm.mobile" placeholder="请输入手机号码">
+              <i slot="prefix" class="iconfont icon-iconfontshouji"></i>
+            </el-input>
           </el-form-item>
           <el-form-item prop='code'>
-            <el-input v-model="loginForm.code"  placeholder="请输入校验码"></el-input>
+            <el-input v-model="loginForm.code"  placeholder="请输入校验码">
+              <i slot="prefix" class="iconfont icon-yanzhengma"></i>
+            </el-input>
           </el-form-item>
           <el-form-item style="text-align:left;" prop="xieyi">
             <el-checkbox v-model="loginForm.xieyi" style="margin-right:10px;"></el-checkbox>
@@ -28,6 +32,9 @@
 // 导入极验的gt.js文件(gt.js文件本身没有做模块化导出动作)
 // 内部有名称为initGeetest的全局变量
 import './gt.js'
+
+// 导入
+import '@/assets/iconfont/iconfont.css'
 // import { lightblue } from 'color-name'
 // import { log } from 'util'
 export default {
