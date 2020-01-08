@@ -17,7 +17,7 @@
             <span>我已阅读并同意<a href="#">用户协议</a>和<a href="#">隐私条款</a></span>
           </el-form-item>
           <el-form-item>
-            <el-button style="width:100%;" type="primary" @click="login()">登录</el-button>
+            <el-button style="width:100%;" type="primary" @click="login()" :disabled='isLoading' :loading='isLoading'>登录</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -49,6 +49,8 @@ export default {
       value ? callback() : callback(new Error('请遵守协议!'))
     }
     return {
+      capObj: null, // 接受极验窗口对象
+      isLoading: false, // 设置按钮是否处于等待效果和是否禁用
       // 表单数据对象
       loginForm: {
         mobile: '15377777777', // 手机号码
@@ -96,6 +98,12 @@ export default {
         // 校验失败，代码停止
         if (!valid) { return false }
 
+        // 判断极验对象存在，就直接使用
+        if (this.capObj !== null) {
+          return this.capObj.verify()
+        }
+        // 设置按钮等待禁用状态
+        this.isLoading = true
         // A.人机交互验证
         // axios获得极验的秘钥信息
         let pro = this.$http({
@@ -120,6 +128,10 @@ export default {
             // 这里可以调用验证实例 captchaObj 的实例方法
               captchaObj.onReady(() => {
                 // 验证码ready之后才能调用verify方法显示验证码（可以显示窗口了）
+                // 恢复按钮状态
+                this.isLoading = false
+                // 接受极验窗口对象
+                this.capObj = captchaObj
                 captchaObj.verify() // 显示验证码窗口
               }).onSuccess(() => {
                 // 行为校验正确的处理
