@@ -19,8 +19,16 @@ const routes = [
   // '@/views/login/index.vue'----index.vue是默认索引文件，不用设置，自动会寻找，代码更节省，更优雅-----只有index.vue会默认被寻找
   // name属性作用，编程式导航可以被使用
   { path: '/login', name: 'login', component: Login },
-  { path: '/home', name: 'home', component: Home }
-]
+  {
+    path: '/home',
+    name: 'home',
+    component: Home,
+    redirect: './welcome',
+    children: [
+      { path: '/welcome', name: 'welcome', component: () => import('@/views/welcome') },
+      { path: '/article', name: 'article', component: () => import('@/views/article') }
+    ] }]
+// import 函数需要相关的依赖包支持
 
 const router = new VueRouter({
   routes
